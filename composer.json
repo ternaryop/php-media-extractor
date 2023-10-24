@@ -1,0 +1,21 @@
+{
+    "name": "ternaryop/media-extractor",
+    "description": "Extract media galleries, single images and titles from HTML text using CSS3 rules",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ternaryop\\MediaExtractor\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Davide Ficano",
+            "email": "davide.ficano@gmail.com"
+        }
+    ],
+    "require": {
+        "ternaryop/photoshelf-util": "^1.0",
+        "jms/serializer-bundle": "^5.3"
+    }
+}

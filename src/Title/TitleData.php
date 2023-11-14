@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ternaryop\MediaExtractor\Title;
 
 class TitleData {
@@ -40,7 +42,10 @@ class TitleData {
   }
 
   function setWhoFromString(string $string): void {
-    $this->who = self::appendSurname(preg_split("/\s*(?:,|&|\band\b)\s*/i", trim($string)));
+    $list = preg_split("/\s*(?:,|&|\band\b)\s*/i", trim($string));
+    if ($list !== false) {
+      $this->who = self::appendSurname($list);
+    }
   }
 
   /**

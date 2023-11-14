@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Ternaryop\MediaExtractor\Title;
 
 class NumericDateComponents {
@@ -48,7 +51,7 @@ class NumericDateComponents {
         -1,
         -1,
         intval($m[1][0]),
-        $m[0][1],
+        intval($m[0][1]),
         DateComponents::NUMERIC_FORMAT);
   }
 
@@ -61,7 +64,7 @@ class NumericDateComponents {
         intval($m[3][0]),
         intval($m[2][0]),
         intval($m[1][0]),
-        $m[1][1],
+        intval($m[1][1]),
         DateComponents::NUMERIC_FORMAT);
   }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Ternaryop\MediaExtractor\Gallery;
 
 use QueryPath\DOMQuery;
@@ -6,6 +9,9 @@ use Ternaryop\MediaExtractor\DOMSelector\Gallery;
 use Ternaryop\MediaExtractor\DOMSelector\ImageDOMSelectorFinder;
 use Ternaryop\PhotoshelfUtil\Html\HtmlUtil;
 
+/**
+ * @phpstan-type GalleryItem array{thumbnailUrl: string, imageUrl?: string, documentUrl?: string}
+ */
 class GalleryItemBuilder {
   private ImageDOMSelectorFinder $domSelectorFinder;
 
@@ -13,6 +19,12 @@ class GalleryItemBuilder {
     $this->domSelectorFinder = $domSelectorFinder;
   }
 
+  /**
+   * @param Gallery $gallery
+   * @param DOMQuery $thumbnailImage
+   * @param int $min_thumb_width
+   * @return GalleryItem|null
+   */
   public function fromSrcSet(
     Gallery  $gallery,
     DOMQuery $thumbnailImage,
@@ -48,6 +60,12 @@ class GalleryItemBuilder {
     return null;
   }
 
+  /**
+   * @param Gallery $gallery
+   * @param DOMQuery $thumbnailImage
+   * @param string $baseuri
+   * @return GalleryItem|null
+   */
   public function fromThumbnailElement(
     Gallery  $gallery,
     DOMQuery $thumbnailImage,
@@ -68,6 +86,12 @@ class GalleryItemBuilder {
     return null;
   }
 
+  /**
+   * @param Gallery $gallery
+   * @param string $thumbnailURL
+   * @param string $destinationDocumentURL
+   * @return GalleryItem
+   */
   public function build(
     Gallery $gallery,
     string  $thumbnailURL,

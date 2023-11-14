@@ -1,6 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Ternaryop\MediaExtractor\Title;
 
+/**
+ * MatchedPosition contains the string and its position inside a more large string
+ * @phpstan-type MatchedPosition array{string, int}
+ */
 class TextualDateComponents {
     /**
      * handle dates in the form Jan 10, 2010 or January 10 2010 or Jan 15
@@ -42,15 +49,15 @@ class TextualDateComponents {
           $dc->year = intval($m[$yearIndex][0]);
         }
       }
-      $dc->startDatePosition = $m[0][1];
+      $dc->startDatePosition = intval($m[0][1]);
       $endPosition = self::endPositionComponent(array($m[$monthIndex], $m[$dayIndex], $m[$yearIndex]));
       $dc->endDatePosition = intval($m[0][1]) + $endPosition[1] + strlen($endPosition[0]);
       return $dc;
     }
 
   /**
-   * @param array $arr
-   * @return array
+   * @param array<MatchedPosition> $arr
+   * @return MatchedPosition the end position
    */
     private static function endPositionComponent(array $arr): array {
       $component = $arr[0];
@@ -65,7 +72,7 @@ class TextualDateComponents {
 
     /**
      * Check if contains date in the form 12th November 2011
-     * @param array<string> $m the m
+     * @param array<MatchedPosition> $m the m
      * @return bool if contains date component, false otherwise
      */
     private static function containsDateDDMonthYear(array $m): bool {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ternaryop\MediaExtractor\Title;
 
 use Ternaryop\PhotoshelfUtil\String\StringUtil;

@@ -1,0 +1,10 @@
+parameters:
+	level: 7
+	paths:
+		- src
+	reportUnmatchedIgnoredErrors: false
+	checkGenericClassInNonGenericObjectType: false
+	ignoreErrors:
+		# QueryPath is iterable but isn't generic
+		- '#^Method [a-zA-Z0-9\\_\$]+::[a-zA-Z0-9_\$]+\(\) return type has no value type specified in iterable type QueryPath\\DOMQuery\.$#'
+		- '#^Method [a-zA-Z0-9\\_\$]+::[a-zA-Z0-9_\$]+\(\) has parameter .+ with no value type specified in iterable type QueryPath\\DOMQuery\.$#'

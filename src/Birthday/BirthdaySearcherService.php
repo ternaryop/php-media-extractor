@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Ternaryop\MediaExtractor\Birthday;
 
 class BirthdaySearcherService implements BirthdaySearcher {

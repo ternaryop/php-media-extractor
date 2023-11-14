@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Ternaryop\MediaExtractor\Gallery;
 
 use DateTime;
@@ -6,6 +9,8 @@ use DateTimeInterface;
 use QueryPath\DOMQuery;
 use Ternaryop\MediaExtractor\DOMSelector\Image;
 use Ternaryop\MediaExtractor\DOMSelector\ImageDOMSelectorFinder;
+use Ternaryop\MediaExtractor\DOMSelector\PageChain;
+use Ternaryop\MediaExtractor\DOMSelector\PostData;
 use Ternaryop\MediaExtractor\DOMSelector\Selector;
 use Ternaryop\PhotoshelfUtil\Html\HtmlUtil;
 use Ternaryop\PhotoshelfUtil\Html\ParseUrlException;
@@ -67,7 +72,7 @@ class ImageService {
   /**
    * Iterate all PageSelector to find the destination image url.
    * Every PageSelector moves to an intermediate document page
-   * @param array $selectorInfoList the list to traverse
+   * @param array<PageChain> $selectorInfoList the list to traverse
    * @param string $url the starting document url
    * @return string|null the imageUrl
    */
@@ -85,6 +90,10 @@ class ImageService {
     return HtmlUtil::htmlDocument(HtmlUtil::downloadHtml($url, $options));
   }
 
+  /**
+   * @param Selector $selector
+   * @return array{post_data: PostData|null, user_agent: string|null, cookie: string|null}
+   */
   private function optionsFromSelector(Selector $selector): array {
     $image = $selector->getImage();
     $cookie = $image->getCookie();
@@ -96,7 +105,7 @@ class ImageService {
 
     return array(
       HtmlUtil::OPTION_POST_DATA => $image->getPostData(),
-      HtmlUtil::USER_AGENT => $selector->getUserAgent(),
+      HtmlUtil::OPTION_USER_AGENT => $selector->getUserAgent(),
       HtmlUtil::OPTION_COOKIE => $cookie
     );
   }

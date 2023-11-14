@@ -1,7 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Ternaryop\MediaExtractor\Title;
 
 /**
+ * @phpstan-import-type MatchedPosition from TextualDateComponents
  * Hold the date components day, month, year
  */
 class DateComponents {
@@ -94,7 +98,7 @@ class DateComponents {
 
   /**
    * Check if the matcher contains valid date components
-   * @param array<string> $matcher the matcher
+   * @param array<MatchedPosition> $matcher the matcher
    * @return boolean true if contains date component, false otherwise
    */
   static function containsDateMatch(array $matcher): bool {

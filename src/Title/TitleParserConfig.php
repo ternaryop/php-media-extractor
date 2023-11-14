@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ternaryop\MediaExtractor\Title;
 
 class TitleParserConfig {
@@ -35,7 +37,7 @@ class TitleParserConfig {
     $map = [];
 
     foreach ($jsonObject["cities"] as $key => $value) {
-      $map[$key] = "/$value/";
+      $map[(string)$key] = "/$value/";
     }
     return $map;
   }

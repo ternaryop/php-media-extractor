@@ -1,15 +1,22 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Ternaryop\MediaExtractor\Gallery;
 
 use DateTime;
 use QueryPath\DOMQuery;
 use Ternaryop\MediaExtractor\DOMSelector\Gallery;
 use Ternaryop\MediaExtractor\DOMSelector\ImageDOMSelectorFinder;
+use Ternaryop\MediaExtractor\Title\TitleData;
 use Ternaryop\MediaExtractor\Title\TitleDateParams;
 use Ternaryop\MediaExtractor\Title\TitleParser;
 use Ternaryop\PhotoshelfUtil\Html\HtmlUtil;
 use Ternaryop\PhotoshelfUtil\String\StringUtil;
 
+/**
+ * @phpstan-import-type GalleryItem from GalleryItemBuilder
+ */
 class GalleryService {
   private ImageDOMSelectorFinder $domSelectorFinder;
   private TitleParser $titleParser;
@@ -23,6 +30,10 @@ class GalleryService {
     $this->galleryItemBuilder = new GalleryItemBuilder($this->domSelectorFinder);
   }
 
+  /**
+   * @param string $galleryUrl
+   * @return array{domain: string, title: string, titleParsed: array<string, mixed>, gallery: array<GalleryItem>}
+   */
   function read(string $galleryUrl): array {
     $content = HtmlUtil::downloadHtml($galleryUrl);
     $htmlDocument = HtmlUtil::htmlDocument($content);
@@ -56,6 +67,13 @@ class GalleryService {
     );
   }
 
+  /**
+   * @param Gallery $selector
+   * @param DOMQuery $htmlDocument
+   * @param string $content
+   * @param string $baseuri
+   * @return array<GalleryItem>
+   */
   private function extractGallery(
     Gallery $selector,
     DOMQuery $htmlDocument,
@@ -70,6 +88,12 @@ class GalleryService {
     return array_merge($arr, $this->extractImageFromMultiPage($selector, $htmlDocument, $baseuri));
   }
 
+  /**
+   * @param Gallery $selector
+   * @param string $html
+   * @param string $baseuri
+   * @return array<GalleryItem>
+   */
   private function extractByRegExp(
     Gallery $selector,
     string $html,
@@ -101,9 +125,19 @@ class GalleryService {
     if (empty($title)) {
         $title = trim($htmlDocument->find("title")->text());
     }
-    return StringUtil::normalizeWhitespaces($title);
+    $normalizedTitle = StringUtil::normalizeWhitespaces($title);
+    if (is_string($normalizedTitle)) {
+      return $normalizedTitle;
+    }
+    return '';
   }
 
+  /**
+   * @param Gallery $selector
+   * @param DOMQuery $startPageDocument
+   * @param string $baseuri
+   * @return array<GalleryItem>
+   */
   private function extractImageFromMultiPage(
     Gallery $selector,
     DOMQuery $startPageDocument,
@@ -130,6 +164,12 @@ class GalleryService {
     return $arr;
   }
 
+  /**
+   * @param Gallery $selector
+   * @param DOMQuery $htmlDocument
+   * @param string $baseuri
+   * @return array<GalleryItem>
+   */
   private function extractImages(
     Gallery $selector,
     DOMQuery $htmlDocument,
@@ -148,6 +188,12 @@ class GalleryService {
     return $arr;
   }
 
+  /**
+   * @param Gallery $selector
+   * @param DOMQuery $thumbnailImage
+   * @param string $baseuri
+   * @return GalleryItem|null
+   */
   private function buildGalleryItem(
     Gallery $selector,
     DOMQuery $thumbnailImage,

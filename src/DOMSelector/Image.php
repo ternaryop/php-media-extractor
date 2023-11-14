@@ -15,6 +15,7 @@ class Image {
 
   /**
    * @JMS\Serializer\Annotation\Type("array<Ternaryop\MediaExtractor\DOMSelector\PageChain>")
+   * @var ?array<PageChain> $pageChain
    */
   private ?array $pageChain = null;
 

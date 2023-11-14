@@ -13,6 +13,7 @@ class DomSelectors {
 
   /**
    * @JMS\Serializer\Annotation\Type("array<Ternaryop\MediaExtractor\DOMSelector\Selector>")
+   * @var array<Selector> $selectors
    */
   private array $selectors;
 
